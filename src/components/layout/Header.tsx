@@ -20,7 +20,7 @@ const Header = forwardRef<HTMLElement>((_, ref) => {
     ];
 
     return (
-        <nav ref={ref} className="relative flex items-center justify-between px-4 py-0 shadow-md bg-white">
+        <nav id="site-header" ref={ref} className="fixed top-0 left-0 w-full z-[999] bg-white shadow-md flex items-center justify-between px-4 py-3">
             {/* Logo */}
             <div className="flex-shrink-0">
                 <Link href="/">

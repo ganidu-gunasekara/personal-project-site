@@ -24,3 +24,48 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* In your global.css or tailwind.css */
+.swiper-pagination-bullet {
+  @apply w-2 h-2 bg-white opacity-50 rounded-full transition-all duration-300;
+  background-color: white !important; 
+}
+
+.swiper-pagination-bullet-active {
+  @apply opacity-100 scale-125;
+}
+
+
+@media (min-width: 452px) and (max-width: 769px) {
+  .button-tablet-fix {
+    bottom: 25% !important;
+  }
+
+  .dots-tablet-fix {
+    bottom: 20% !important;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1800px) {
+  .button-large-range-fix {
+    bottom: 10% !important;
+  }
+
+  .dots-large-range-fix {
+    bottom: 7.5% !important;
+  }
+}
+
+@media screen and (orientation: landscape) and (max-height: 430px) {
+  .button-mobile-landscape-fix {
+    bottom: 45% !important;
+  }
+
+  .dots-mobile-landscape-fix {
+    bottom: 40% !important;
+  }
+}
+
+
+
+
