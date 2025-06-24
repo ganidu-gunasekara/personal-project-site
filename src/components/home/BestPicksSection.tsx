@@ -4,7 +4,7 @@ export default function BestPicksSection() {
     return (
         <section
             id="best-pick-section"
-            className="scroll-mt-0 min-h-screen py-24 bg-"
+            className="scroll-mt-0 min-h-screen py-24 bg-white"
         >
             <div>
                 <h2 className="text-2xl font-bold text-center mb-4">Best Picks</h2>
