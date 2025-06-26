@@ -27,8 +27,8 @@ const Header = forwardRef<HTMLElement>((_, ref) => {
                     <Image
                         src="/logo.png"
                         alt="Logo"
-                        width={90}
-                        height={30}
+                        width={110}
+                        height={36}
                         priority
                         style={{ height: "auto" }}
                     />

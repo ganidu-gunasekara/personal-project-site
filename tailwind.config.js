@@ -9,6 +9,9 @@ module.exports = {
 
   theme: {
     extend: {
+      screens: {
+        'xs': '400px', // custom screen for large phones
+      },
       keyframes: {
         fadeInUp: {
           "0%": { opacity: "0", transform: "translateY(10px)" },
