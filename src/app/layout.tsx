@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import "./globals.css";
+import LayoutShell from "@/components/layout/LayoutShell";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,12 +26,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en" className="h-full">
       <body className={`${geistSans.variable} ${geistMono.variable}  h-full flex flex-col`}>
-        <Header />
-        <main className="flex-grow">{children}</main>
-        <Footer />
+        <LayoutShell>{children}</LayoutShell>
       </body>
     </html>
   );
