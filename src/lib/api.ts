@@ -8,12 +8,17 @@ export async function getProductById(id: string) {
   return res.json();
 }
 
-export async function createProduct(data: any) {
+export async function createProduct(data: FormData) {
   const res = await fetch("/api/products", {
     method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" },
+    body: data,
   });
+
+  if (!res.ok) {
+    const errorBody = await res.json(); // Read the response
+    throw new Error(errorBody.message || "Unknown server error");
+  }
+
   return res.json();
 }
 

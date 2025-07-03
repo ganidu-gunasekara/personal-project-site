@@ -9,9 +9,9 @@ import { getAllProducts, deleteProduct } from "@/lib/api";
 export default function ProductTable() {
   const [products, setProducts] = useState<any[]>([]);
 
-  useEffect(() => {
-    getAllProducts().then(setProducts);
-  }, []);
+  // useEffect(() => {
+  //   getAllProducts().then(setProducts);
+  // }, []);
 
   const handleDelete = async (id: string) => {
     await deleteProduct(id);

@@ -9,6 +9,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import { Toaster } from "sonner";
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -19,6 +20,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   return (
     <div className="h-full flex flex-col lg:flex-row bg-zinc-100">
+      <Toaster position="top-right" richColors />
       {/* Mobile Topbar */}
       <div className="lg:hidden flex items-center justify-between bg-zinc-950 text-white p-4">
         <h1 className="text-xl font-semibold">Admin Panel</h1>

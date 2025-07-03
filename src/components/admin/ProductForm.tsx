@@ -30,6 +30,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@radix-ui/react-label";
 import ColorTagInput from "./ColorTagInput";
 import SizeSelector from "./SizeSelector";
+import { createProduct } from "@/lib/api";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -38,8 +40,17 @@ const formSchema = z.object({
   productNo: z.string().min(1, "Product number is required"),
   fit: z.string().min(1, "Fit is required"),
   composition: z.string().min(1, "Composition is required"),
-  price: z.coerce.number().min(0),
-  discountPrice: z.coerce.number().optional(),
+  price: z.coerce
+    .number({ invalid_type_error: "Price is required" })
+    .min(1, { message: "Price is required" }),
+  discountPrice: z
+    .union([
+      z.coerce.number().refine((val) => !isNaN(val), {
+        message: "Discount must be a number",
+      }),
+      z.literal(undefined),
+    ])
+    .optional(),
   colors: z.array(z.string().min(1)).min(1, "At least one color required"),
   sizes: z.array(z.string()).min(1, "At least one size required"),
 });
@@ -49,7 +60,6 @@ type ProductFormValues = z.infer<typeof formSchema>;
 export default function ProductForm({ mode }: { mode: "create" | "edit" }) {
   const [mainImage, setMainImage] = useState<File | null>(null);
   const [additionalImages, setAdditionalImages] = useState<File[]>([]);
-  const [tempColor, setTempColor] = useState("#000000");
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(formSchema),
@@ -60,18 +70,48 @@ export default function ProductForm({ mode }: { mode: "create" | "edit" }) {
       productNo: "",
       fit: "",
       composition: "",
-      price: 0,
+      price: undefined,
       discountPrice: undefined,
       colors: [],
       sizes: [],
     },
   });
 
-  const onSubmit = (values: ProductFormValues) => {
-    console.log("Form values:", values);
-    console.log("Main image:", mainImage);
-    console.log("Additional images:", additionalImages);
+  const onSubmit = async (values: ProductFormValues) => {
+    if (!mainImage || additionalImages.length !== 4) return;
+
+    const formData = new FormData();
+
+    formData.append("name", values.name);
+    formData.append("description", values.description);
+    formData.append("category", values.category);
+    formData.append("productNo", values.productNo);
+    formData.append("fit", values.fit);
+    formData.append("composition", values.composition);
+    formData.append("price", values.price.toString());
+    console.log(values.price)
+    if (values.discountPrice !== undefined) {
+      formData.append("discountPrice", values.discountPrice.toString());
+    }
+
+    values.colors.forEach((color) => formData.append("colors[]", color));
+    values.sizes.forEach((size) => formData.append("sizes[]", size));
+
+    formData.append("mainImage", mainImage);
+    additionalImages.forEach((file, index) => {
+      formData.append("images", file);
+    });
+
+    try {
+      const response = await createProduct(formData);
+      toast.success("Product created successfully!");
+    } catch (error: any) {
+      toast.error(error.message || "Failed to create product.");
+    }
+
+
   };
+
 
   return (
     <Form {...form}>
@@ -92,7 +132,10 @@ export default function ProductForm({ mode }: { mode: "create" | "edit" }) {
                 <FormItem>
                   <FormLabel>Product Name</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="Cotton T-Shirt" />
+                    <Input
+                      {...field}
+                      placeholder="Cotton T-Shirt"
+                      autoComplete="off" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -156,7 +199,7 @@ export default function ProductForm({ mode }: { mode: "create" | "edit" }) {
                 <FormItem>
                   <FormLabel>Price</FormLabel>
                   <FormControl>
-                    <Input type="number" {...field} />
+                    <Input type="number" {...field} value={field.value ?? ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -170,7 +213,7 @@ export default function ProductForm({ mode }: { mode: "create" | "edit" }) {
                 <FormItem>
                   <FormLabel>Discount Price</FormLabel>
                   <FormControl>
-                    <Input type="number" {...field} />
+                    <Input type="number" {...field} value={field.value ?? ""} />
                   </FormControl>
                   <FormDescription>Optional</FormDescription>
                   <FormMessage />
@@ -191,10 +234,10 @@ export default function ProductForm({ mode }: { mode: "create" | "edit" }) {
               name="category"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Category</FormLabel>
+                  <span className="text-sm font-medium">Category</span>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger id="category-trigger" >
                         <SelectValue placeholder="Select category" />
                       </SelectTrigger>
                     </FormControl>
@@ -204,6 +247,7 @@ export default function ProductForm({ mode }: { mode: "create" | "edit" }) {
                       <SelectItem value="unisex">Unisex</SelectItem>
                     </SelectContent>
                   </Select>
+                  <input type="hidden" name="category" value={field.value} />
                   <FormMessage />
                 </FormItem>
               )}
@@ -236,32 +280,50 @@ export default function ProductForm({ mode }: { mode: "create" | "edit" }) {
               name="colors"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Colors</FormLabel>
+                  <span className="text-sm font-medium">Colors</span>
                   <FormControl>
-                    <ColorTagInput value={field.value} onChange={field.onChange} />
+                    <div>
+                      <ColorTagInput value={field.value} onChange={field.onChange} />
+                      <input
+                        type="hidden"
+                        name="colors"
+                        value={field.value.join(",")}
+                      />
+                    </div>
                   </FormControl>
+
                   <FormDescription>
                     Enter comma-separated colors or pick one.
                   </FormDescription>
+
                   <FormMessage />
                 </FormItem>
-
               )}
             />
+
 
             <FormField
               control={form.control}
               name="sizes"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Sizes</FormLabel>
+                  <span className="text-sm font-medium">Sizes</span>
                   <FormControl>
-                    <SizeSelector value={field.value} onChange={field.onChange} />
+                    <div>
+                      <SizeSelector value={field.value} onChange={field.onChange} />
+                      <input
+                        type="hidden"
+                        name="sizes"
+                        value={field.value.join(",")}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
+
           </CardContent>
         </Card>
 
@@ -273,8 +335,9 @@ export default function ProductForm({ mode }: { mode: "create" | "edit" }) {
           <CardContent className="space-y-6">
             {/* Main Image */}
             <div className="space-y-2">
-              <Label>Main Image</Label>
+              <Label htmlFor="mainImage">Main Image</Label>
               <Input
+                id="mainImage"
                 type="file"
                 accept="image/*"
                 onChange={(e) => {
@@ -298,8 +361,9 @@ export default function ProductForm({ mode }: { mode: "create" | "edit" }) {
 
             {/* Additional Images */}
             <div className="space-y-2">
-              <Label>Additional Images (4)</Label>
+              <Label htmlFor="additionalImages">Additional Images (4)</Label>
               <Input
+                id="additionalImages"
                 type="file"
                 accept="image/*"
                 multiple
