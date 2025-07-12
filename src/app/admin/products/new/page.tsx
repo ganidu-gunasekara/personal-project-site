@@ -27,7 +27,7 @@ export default function NewProductPage() {
 
       {/* Form wrapper with subtle styling */}
       <div className="rounded-lg border border-gray-200 bg-white shadow-sm p-6 space-y-8">
-        <ProductForm mode="create" />
+        <ProductForm mode="create"/>
       </div>
     </div>
   );

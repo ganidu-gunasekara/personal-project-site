@@ -3,8 +3,23 @@ export async function getAllProducts() {
   return res.json();
 }
 
+export async function getProductBySlug(slug:string) {
+  const res = await fetch(`/api/products/${slug}`)
+  if (!res.ok) {
+    const errorBody = await res.json(); 
+    throw new Error(errorBody.message || "Unknown server error");
+  }
+  return res.json();
+}
+
 export async function getProductById(id: string) {
-  const res = await fetch(`/api/products/${id}`);
+  const res = await fetch(`/api/products/id/${id}`);
+
+  if (!res.ok) {
+    const errorBody = await res.json();
+    throw new Error(errorBody.message || "Unknown server error");
+  }
+
   return res.json();
 }
 
@@ -15,18 +30,17 @@ export async function createProduct(data: FormData) {
   });
 
   if (!res.ok) {
-    const errorBody = await res.json(); // Read the response
+    const errorBody = await res.json();
     throw new Error(errorBody.message || "Unknown server error");
   }
 
   return res.json();
 }
 
-export async function updateProduct(id: string, data: any) {
-  const res = await fetch(`/api/products/${id}`, {
+export async function updateProduct(slug: string, data: FormData) {
+  const res = await fetch(`/api/products/${slug}`, {
     method: "PATCH",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" },
+    body: data,
   });
   return res.json();
 }
