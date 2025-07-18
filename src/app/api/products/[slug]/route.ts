@@ -2,14 +2,8 @@ import { NextRequest } from "next/server";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_NEST_API_URL;
 
-interface RouteContext {
-  params: {
-    slug: string;
-  };
-}
-
-export async function GET(req: NextRequest, context: RouteContext) {
-  const { slug } = context.params;
+export async function GET(req: NextRequest, context: { params: Promise<{ slug: string }> }) {
+  const { slug } = await context.params;
 
   const response = await fetch(`${BACKEND_URL}/products/${slug}`);
   const data = await response.json();
@@ -20,10 +14,10 @@ export async function GET(req: NextRequest, context: RouteContext) {
   });
 }
 
-export async function PATCH(req: Request, context: RouteContext) {
-  const { slug } = context.params;
-  const body = await req.formData();
+export async function PATCH(req: Request, context: { params: Promise<{ slug: string }> }) {
+  const { slug } = await context.params;
 
+  const body = await req.formData();
   const response = await fetch(`${BACKEND_URL}/products/${slug}`, {
     method: "PATCH",
     body,
