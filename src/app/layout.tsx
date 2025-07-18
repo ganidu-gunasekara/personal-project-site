@@ -1,7 +1,10 @@
 // app/layout.tsx
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import "./globals.css";
+import LayoutShell from "@/components/layout/LayoutShell";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,10 +26,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+    <html lang="en" className="h-full">
+      <body className={`${geistSans.variable} ${geistMono.variable}  h-full flex flex-col`}>
+        <LayoutShell>{children}</LayoutShell>
       </body>
     </html>
   );

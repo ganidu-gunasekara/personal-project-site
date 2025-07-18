@@ -13,22 +13,23 @@ const Header = forwardRef<HTMLElement>((_, ref) => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const navLinks = [
-        { label: "Men", href: "/men" },
-        { label: "Women", href: "/women" },
-        { label: "Sale", href: "/sale" },
+        { label: "Men", href: "/products?category=Men" },
+        { label: "Women", href: "/products?category=Women" },
+        { label: "Sale", href: "/#" },
         { label: "About", href: "/about" },
     ];
 
+
     return (
-        <nav ref={ref} className="relative flex items-center justify-between px-4 py-0 shadow-md bg-white">
+        <nav id="site-header" ref={ref} className="fixed top-0 left-0 w-full z-[999] bg-white shadow-md flex items-center justify-between px-4 py-3">
             {/* Logo */}
             <div className="flex-shrink-0">
                 <Link href="/">
                     <Image
                         src="/logo.png"
                         alt="Logo"
-                        width={90}
-                        height={30}
+                        width={110}
+                        height={36}
                         priority
                         style={{ height: "auto" }}
                     />
@@ -65,7 +66,7 @@ const Header = forwardRef<HTMLElement>((_, ref) => {
                 </div>
 
                 {/* Cart Icon */}
-                <Link href="/cart" className="text-black text-xl">
+                <Link href="#" onClick={(e) => e.preventDefault()} className="text-black text-xl">
                     <FaShoppingCart />
                 </Link>
 
