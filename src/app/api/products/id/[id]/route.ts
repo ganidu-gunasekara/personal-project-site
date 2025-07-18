@@ -2,14 +2,10 @@ import { NextRequest } from "next/server";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_NEST_API_URL;
 
-type Params = {
-  params: {
-    id: string;
-  };
-};
+export async function GET(req: NextRequest, context: any) {
+  const { id } = context.params;
 
-export async function GET(req: NextRequest, { params }: Params) {
-  const res = await fetch(`${BACKEND_URL}/products/id/${params.id}`, {
+  const res = await fetch(`${BACKEND_URL}/products/id/${id}`, {
     cache: "no-store",
   });
   const data = await res.json();
