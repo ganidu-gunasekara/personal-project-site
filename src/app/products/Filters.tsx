@@ -6,12 +6,18 @@ import { FaChevronDown } from "react-icons/fa";
 type FiltersProps = {
   openSections: Record<string, boolean>;
   toggleSection: (section: string) => void;
+  selectedSizes: string[];
+  setSelectedSizes: React.Dispatch<React.SetStateAction<string[]>>;
+  selectedSort: string | null;
+  setSelectedSort: React.Dispatch<React.SetStateAction<string | null>>;
+  selectedCategory: string | null;
+  setSelectedCategory: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
-export default function Filters({ openSections, toggleSection }: FiltersProps) {
-  const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-  const [selectedSort, setSelectedSort] = useState<string | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>("All");
+export default function Filters(
+  { openSections, toggleSection, selectedSizes, setSelectedSizes, selectedSort, setSelectedSort, selectedCategory, setSelectedCategory }: FiltersProps
+) {
+
 
 
   const handleSizeClick = (size: string) => {
@@ -108,8 +114,8 @@ export default function Filters({ openSections, toggleSection }: FiltersProps) {
           }`}>
           <div className="mt-4 space-y-3 text-sm text-gray-700" role="radiogroup" aria-label="Sort options">
             {[
-              { label: "Low to High", icon: "↓", value: "low" },
-              { label: "High to Low", icon: "↑", value: "high" },
+              { label: "Low to High", icon: "↓", value: "price_asc" },
+              { label: "High to Low", icon: "↑", value: "price_desc" },
             ].map(({ label, icon, value }) => {
               const isSelected = selectedSort === value;
 

@@ -7,13 +7,13 @@ export default function BestPicksSection() {
             id: 1,
             title: "Classic Oversized Tee",
             description: "Relaxed fit with premium cotton – great for everyday comfort.",
-            imageUrl: "/best-picks/best-picks-3.jpg", // replace with your actual image path
+            imageUrl: "/best-picks/best-picks-1.jpg", // replace with your actual image path
         },
         {
             id: 2,
             title: "Everyday Basic Tee",
             description: "Lightweight and breathable – perfect for layering.",
-            imageUrl: "/best-picks/best-picks-3.jpg",
+            imageUrl: "/best-picks/best-picks-2.jpg",
         },
         {
             id: 3,
@@ -25,7 +25,7 @@ export default function BestPicksSection() {
             id: 4,
             title: "Eco Cotton Tee",
             description: "Made from 100% organic cotton – soft on your skin and the planet.",
-            imageUrl: "/best-picks/best-picks-3.jpg",
+            imageUrl: "/best-picks/best-picks-4.jpg",
         },
     ];
 
@@ -68,7 +68,7 @@ export default function BestPicksSection() {
                 </div>
                 <div className="mt-10 text-center">
   <a
-    href="/shop"
+    href="/products"
     className="inline-block px-6 py-2 border border-black text-black text-sm font-medium hover:bg-black hover:text-white transition"
   >
     View More

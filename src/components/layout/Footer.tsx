@@ -27,8 +27,8 @@ export default function Footer() {
             </span>
           </div>
           <div className={`transition-all duration-500 ease-in-out overflow-hidden md:block ${openAbout ? "max-h-20 opacity-100" : "max-h-0 opacity-0"} md:max-h-full md:opacity-100 md:block mt-3 space-y-2`}>
-            <a href="#" className="block text-sm text-gray-400 hover:text-white transition-colors duration-200">About Us</a>
-            <a href="#" className="block text-sm text-gray-400 hover:text-white transition-colors duration-200">Contact Us</a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="block text-sm text-gray-400 hover:text-white transition-colors duration-200">About Us</a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="block text-sm text-gray-400 hover:text-white transition-colors duration-200">Contact Us</a>
           </div>
         </div>
 
@@ -46,8 +46,8 @@ export default function Footer() {
             </span>
           </div>
           <div className={`transition-all duration-500 ease-in-out overflow-hidden ${openHelp ? "max-h-20 opacity-100" : "max-h-0 opacity-0"} md:max-h-full md:opacity-100 md:block mt-3 space-y-2`}>
-            <a href="#" className="block text-sm text-gray-400 hover:text-white transition-colors duration-200">FAQs</a>
-            <a href="#" className="block text-sm text-gray-400 hover:text-white transition-colors duration-200">Returns & Exchanges</a>
+            <a href="#"  onClick={(e) => e.preventDefault()} className="block text-sm text-gray-400 hover:text-white transition-colors duration-200">FAQs</a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="block text-sm text-gray-400 hover:text-white transition-colors duration-200">Returns & Exchanges</a>
           </div>
         </div>
 
@@ -65,13 +65,13 @@ export default function Footer() {
             </span>
           </div>
           <div className={`transition-all duration-500 ease-in-out overflow-hidden ${openConnect ? "max-h-20 opacity-100" : "max-h-0 opacity-0"} md:max-h-full md:opacity-100 md:block mt-3 space-y-2`}>
-            <a href="#" className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors duration-200">
+            <a href="#" onClick={(e) => e.preventDefault()} className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors duration-200">
               <FaInstagram /> Instagram
             </a>
-            <a href="#" className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors duration-200">
+            <a href="#" onClick={(e) => e.preventDefault()} className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors duration-200">
               <FaFacebook /> Facebook
             </a>
-            <a href="#" className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors duration-200">
+            <a href="#" onClick={(e) => e.preventDefault()} className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors duration-200">
               <FaNewspaper /> Newsletter Signup
             </a>
           </div>
@@ -91,9 +91,9 @@ export default function Footer() {
             </span>
           </div>
           <div className={`transition-all duration-500 ease-in-out overflow-hidden ${openLegal ? "max-h-20 opacity-100" : "max-h-0 opacity-0"} md:max-h-full md:opacity-100 md:block mt-3 space-y-2`}>
-            <a href="#" className="block text-sm text-gray-400 hover:text-white transition-colors duration-200">Terms of Service</a>
-            <a href="#" className="block text-sm text-gray-400 hover:text-white transition-colors duration-200">Refund Policy</a>
-            <a href="#" className="block text-sm text-gray-400 hover:text-white transition-colors duration-200">Privacy Policy</a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="block text-sm text-gray-400 hover:text-white transition-colors duration-200">Terms of Service</a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="block text-sm text-gray-400 hover:text-white transition-colors duration-200">Refund Policy</a>
+            <a href="#" onClick={(e) => e.preventDefault()} className="block text-sm text-gray-400 hover:text-white transition-colors duration-200">Privacy Policy</a>
           </div>
         </div>
       </div>

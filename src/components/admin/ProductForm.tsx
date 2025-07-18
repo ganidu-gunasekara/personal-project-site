@@ -425,7 +425,6 @@ export default function ProductForm({ mode, product }: ProductFormProps) {
                   const filesToAdd = files.slice(0, remainingSlots);
                   setAdditionalImages([...additionalImages, ...filesToAdd]);
                 }}
-                required
               />
               {additionalImages.length > 0 && (
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

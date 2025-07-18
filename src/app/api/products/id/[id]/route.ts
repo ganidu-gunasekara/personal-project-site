@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 
-const BACKEND_URL = process.env.NEST_API_URL;
+const BACKEND_URL = process.env.NEXT_PUBLIC_NEST_API_URL;
 
 export async function GET(req: NextRequest, {params} : {params : {id : string}}) {
 

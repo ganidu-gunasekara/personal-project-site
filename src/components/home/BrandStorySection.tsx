@@ -9,7 +9,6 @@ export default function BrandStorySection() {
             {/* Overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
 
-
             {/* Content */}
             <div className="relative max-w-4xl mx-auto text-left z-10">
                 <p className="uppercase text-sm text-gray-300 mb-2 tracking-wider">
@@ -17,21 +16,21 @@ export default function BrandStorySection() {
                 </p>
 
                 <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4">
-                    This Brand Started With Nothing But Grit
+                    This Brand Started with Coffee, Chaos & Curiosity
                 </h2>
 
                 <p className="text-sm sm:text-base leading-relaxed mb-5 text-gray-200">
-                    I didn’t have a big budget. No handouts. No team. Just an idea and a need to prove something.
+                    It all started with a coffee-fueled idea at 2AM -- you know, one of those "what if..." moments. No money, no plan, just a lot of tabs open and a sketchbook full of scribbles.
                 </p>
                 <p className="text-sm sm:text-base leading-relaxed mb-5 text-gray-200">
-                    I started Nevano while working a 9–5, printing a few tees with the little I had. Not because it was easy — but because I couldn’t stop thinking about it.
+                    Nevano was born in a cluttered apartment with more ambition than square footage. I was juggling a day job, late-night YouTube tutorials, and trying not to accidentally glue my fingers together.
                 </p>
                 <p className="text-sm sm:text-base leading-relaxed mb-5 text-gray-200">
-                    Nevano is for anyone who’s been doubted, overlooked, or building in silence. If you’ve ever chased something that made no sense to anyone but you — you’re already one of us.
+                    This brand is for the dreamers who don&apos;t take themselves too seriously -- the ones who chase ideas, trip over them, and keep running anyway. If you&apos;re building something weird and wonderful, you&apos;re one of us.
                 </p>
 
                 <p className="italic text-gray-300 text-sm mb-5">
-                    We don’t do hype. We do meaning. Welcome to Nevano.
+                    We&apos;re not trying to be cool. We&apos;re just having fun doing what we love. Welcome to Nevano.
                 </p>
 
                 <div className="flex gap-4 flex-wrap">
@@ -42,7 +41,7 @@ export default function BrandStorySection() {
                         Read More About Us
                     </a>
                     <a
-                        href="/shop"
+                        href="/products"
                         className="px-5 py-2 bg-white text-black text-sm hover:bg-gray-200 transition"
                     >
                         Shop the Drop
@@ -50,6 +49,5 @@ export default function BrandStorySection() {
                 </div>
             </div>
         </section>
-
     );
 }

@@ -1,58 +1,74 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Filters from "./Filters";
+import { getAllProducts } from "@/lib/api";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 export default function ProductsPage() {
-
-    const products = [
-        {
-            id: 1,
-            title: "Classic Oversized Tee",
-            description: "Relaxed fit with premium cotton – great for everyday comfort.",
-            imageUrl: "/best-picks/best-picks-3.jpg", // replace with your actual image path
-        },
-        {
-            id: 2,
-            title: "Everyday Basic Tee",
-            description: "Lightweight and breathable – perfect for layering.",
-            imageUrl: "/best-picks/best-picks-3.jpg",
-        },
-        {
-            id: 3,
-            title: "Urban Street Tee",
-            description: "Bold design and oversized fit for a modern streetwear look.",
-            imageUrl: "/best-picks/best-picks-3.jpg",
-        },
-        {
-            id: 4,
-            title: "Eco Cotton Tee",
-            description: "Made from 100% organic cotton – soft on your skin and the planet.",
-            imageUrl: "/best-picks/best-picks-3.jpg",
-        },
-        {
-            id: 5,
-            title: "Urban Street Tee",
-            description: "Bold design and oversized fit for a modern streetwear look.",
-            imageUrl: "/best-picks/best-picks-3.jpg",
-        },
-        {
-            id: 6,
-            title: "Eco Cotton Tee",
-            description: "Made from 100% organic cotton – soft on your skin and the planet.",
-            imageUrl: "/best-picks/best-picks-3.jpg",
-        },
-    ];
-
+    const [products, setProducts] = useState<any[]>([]);
+    const [loading, setLoading] = useState(false);
     const [openSections, setOpenSections] = useState<Record<string, boolean>>({
         Category: false,
         Size: false,
         Sort: false,
     });
+    const [showFilters, setShowFilters] = useState(false);
+    const [renderFilters, setRenderFilters] = useState(false);
+    const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
+    const [selectedSort, setSelectedSort] = useState<string | null>(null);
+    const searchParams = useSearchParams();
+    const initialCategory = searchParams.get("category");
 
-    const [showFilters, setShowFilters] = useState(false); // animation state
-    const [renderFilters, setRenderFilters] = useState(false); // DOM control
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(() => {
+        const cat = initialCategory?.toLowerCase();
+        if (cat === "men") return "Men";
+        if (cat === "women") return "Women";
+        return null;
+    });
 
+    useEffect(() => {
+        const cat = initialCategory?.toLowerCase();
+        if (cat === "men") setSelectedCategory("Men");
+        else if (cat === "women") setSelectedCategory("Women");
+        else setSelectedCategory(null);
+    }, [initialCategory]);
+
+
+
+    const fetchProducts = async (params: Record<string, any>) => {
+        setLoading(true);
+        try {
+            const data = await getAllProducts(params);
+            setProducts(data.items);
+        } catch (error) {
+            console.error("Failed to fetch products:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+    useEffect(() => {
+        const params: Record<string, any> = {};
+
+        if (selectedCategory && selectedCategory !== 'All') {
+            params.category = selectedCategory.toLowerCase();
+        }
+
+        if (selectedSizes.length > 0) {
+            params.size = selectedSizes.map((s) => s.toLowerCase());
+        }
+
+        if (selectedSort) {
+            params.sort = selectedSort.toLowerCase();
+        }
+
+        params.page = 1;
+        params.limit = 20;
+        fetchProducts(params);
+    }, [selectedCategory, selectedSizes, selectedSort]);
 
     const toggleSection = (section: string) => {
         setOpenSections((prev) => ({
@@ -62,13 +78,13 @@ export default function ProductsPage() {
     };
 
     const openFilters = () => {
-        setRenderFilters(true); // mount to DOM
-        setTimeout(() => setShowFilters(true), 10); // trigger animation
+        setRenderFilters(true);
+        setTimeout(() => setShowFilters(true), 10);
     };
 
     const closeFilters = () => {
-        setShowFilters(false); // trigger close animation
-        setTimeout(() => setRenderFilters(false), 500); // remove from DOM after animation
+        setShowFilters(false);
+        setTimeout(() => setRenderFilters(false), 500);
     };
 
 
@@ -120,12 +136,36 @@ export default function ProductsPage() {
                         FILTER PRODUCTS
                     </button>
 
-
                     {/* Sidebar (desktop only) */}
                     <div className="hidden lg:block md:min-h-screen p-4 space-y-4">
+                        <div
+                            className="bg-zinc-900 text-white px-2 py-2.5 mt-4 mb-2 ml-2 text-sm font-medium tracking-wider shadow-sm active:scale-95 transition-transform duration-150 flex items-center justify-center whitespace-nowrap min-w-[160px]"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="w-4 h-4 mr-2"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth={1.8}
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M3 4h18M6 10h12M10 16h4"
+                                />
+                            </svg>
+                            FILTER PRODUCTS
+                        </div>
                         <Filters
                             openSections={openSections}
                             toggleSection={toggleSection}
+                            selectedSizes={selectedSizes}
+                            setSelectedSizes={setSelectedSizes}
+                            selectedSort={selectedSort}
+                            setSelectedSort={setSelectedSort}
+                            selectedCategory={selectedCategory}
+                            setSelectedCategory={setSelectedCategory}
                         />
                     </div>
                 </div>
@@ -134,16 +174,21 @@ export default function ProductsPage() {
                 <div className="min-h-screen bg-white lg:w-4/5 p-4 ">
                     <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-7xl mx-auto px-4 ">
                         {products.map((product) => (
-                            <div key={product.id} className="transform hover:scale-105 transition-transform duration-300">
+                            <Link
+                                key={product.id}
+                                href={`/products/${product.slug}`}
+                                className="transform hover:scale-105 transition-transform duration-300 block"
+                            >
                                 <img
-                                    src={product.imageUrl}
-                                    alt={product.title}
+                                    src={product.mainImageUrl}
+                                    alt={product.name}
                                     className="w-full h-auto object-cover rounded-md shadow-md"
                                 />
-                                <h3 className="text-lg font-semibold text-gray-900">{product.title}</h3>
+                                <h3 className="text-lg font-semibold text-gray-900">{product.name}</h3>
                                 <p className="text-sm text-gray-600">{product.description}</p>
-                            </div>
+                            </Link>
                         ))}
+
                     </div>
                 </div>
             </div>
@@ -179,6 +224,12 @@ export default function ProductsPage() {
                         <Filters
                             openSections={openSections}
                             toggleSection={toggleSection}
+                            selectedSizes={selectedSizes}
+                            setSelectedSizes={setSelectedSizes}
+                            selectedSort={selectedSort}
+                            setSelectedSort={setSelectedSort}
+                            selectedCategory={selectedCategory}
+                            setSelectedCategory={setSelectedCategory}
                         />
                     </div>
                 </div>

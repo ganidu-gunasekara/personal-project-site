@@ -1,4 +1,4 @@
-const BACKEND_URL = process.env.NEST_API_URL;
+const BACKEND_URL = process.env.NEXT_PUBLIC_NEST_API_URL;
 
 
 export async function POST(req: Request) {
@@ -15,11 +15,15 @@ export async function POST(req: Request) {
   });
 }
 
-export async function GET() {
-  const response = await fetch(`${BACKEND_URL}/products`)
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const query = searchParams.toString();
+
+  const response = await fetch(`${BACKEND_URL}/products${query ? `?${query}` : ''}`);
   const data = await response.json();
+
   return new Response(JSON.stringify(data), {
     status: response.status,
-    headers: { "Content-Type": "application/json" },
+    headers: { 'Content-Type': 'application/json' },
   });
 }

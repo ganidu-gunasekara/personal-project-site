@@ -3,8 +3,8 @@
 export default function MovementBanner() {
   return (
     <section className="bg-black text-white py-20 px-6 text-center relative overflow-hidden">
-      {/* Background Texture (Optional) */}
-      <div className="absolute inset-0 opacity-10 bg-[url('/textures/grunge-texture.png')] bg-cover bg-center pointer-events-none" />
+      {/* Background Texture */}
+      <div className="absolute inset-0 bg-[url('/images/movement.jpg')] bg-cover bg-center opacity-40 z-0" />
 
       {/* Content */}
       <div className="relative z-10 max-w-3xl mx-auto">
@@ -16,7 +16,8 @@ export default function MovementBanner() {
           think louder, and wear their truth.
         </p>
         <a
-          href="/shop"
+          href="#"
+          onClick={(e) => e.preventDefault()}
           className="inline-block px-6 py-3 bg-white text-black text-sm font-semibold tracking-wide hover:bg-gray-200 transition rounded-sm shadow-md"
         >
           Join the Movement

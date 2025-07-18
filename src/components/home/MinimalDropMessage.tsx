@@ -19,7 +19,7 @@ export default function MinimallDropMessage() {
         </p>
 
         <a
-          href="/shop"
+          href="/products"
           className="inline-block px-6 py-3 bg-black text-white text-sm font-semibold tracking-wide hover:bg-gray-800 transition shadow-md rounded-sm"
         >
           Shop the Collection

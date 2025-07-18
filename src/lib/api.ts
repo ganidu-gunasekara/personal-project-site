@@ -1,5 +1,21 @@
-export async function getAllProducts() {
-  const res = await fetch("/api/products");
+export async function getAllProducts(params?: Record<string, any>) {
+  const query = new URLSearchParams();
+
+  if (params) {
+    for (const key in params) {
+      const value = params[key];
+      if (Array.isArray(value)) {
+        value.forEach((v) => query.append(key, v));
+      } else if (value !== undefined && value !== null) {
+        query.append(key, value);
+      }
+    }
+  }
+
+  const queryString = query.toString();
+  const url = `/api/products${queryString ? `?${queryString}` : ''}`;
+
+  const res = await fetch(url);
   return res.json();
 }
 
