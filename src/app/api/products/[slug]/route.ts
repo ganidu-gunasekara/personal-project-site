@@ -2,7 +2,10 @@ import { NextRequest } from "next/server";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_NEST_API_URL;
 
-export async function GET(req: NextRequest, context: { params: Promise<{ slug: string }> }) {
+export async function GET(
+  req: NextRequest,
+  context: { params: Promise<{ slug: string }> }
+) {
   const { slug } = await context.params;
 
   const response = await fetch(`${BACKEND_URL}/products/${slug}`);
@@ -14,7 +17,10 @@ export async function GET(req: NextRequest, context: { params: Promise<{ slug: s
   });
 }
 
-export async function PATCH(req: Request, context: { params: Promise<{ slug: string }> }) {
+export async function PATCH(
+  req: Request,
+  context: { params: Promise<{ slug: string }> }
+) {
   const { slug } = await context.params;
 
   const body = await req.formData();
