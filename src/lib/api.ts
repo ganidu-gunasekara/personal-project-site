@@ -4,10 +4,23 @@ export async function getAllProducts(params?: Record<string, any>) {
   if (params) {
     for (const key in params) {
       const value = params[key];
+
+      if (key === "size") {
+        const sizes = Array.isArray(value) ? value : [value];
+
+        if (sizes.length === 1) {
+          query.append("size", String(sizes[0]));
+          query.append("size", String(sizes[0]));
+        } else {
+          sizes.forEach((v) => query.append("size", String(v)));
+        }
+
+        continue;
+      }
       if (Array.isArray(value)) {
-        value.forEach((v) => query.append(key, v));
+        value.forEach((v) => query.append(key, String(v)));
       } else if (value !== undefined && value !== null) {
-        query.append(key, value);
+        query.append(key, String(value));
       }
     }
   }
@@ -18,6 +31,11 @@ export async function getAllProducts(params?: Record<string, any>) {
   const res = await fetch(url);
   return res.json();
 }
+
+
+
+
+
 
 export async function getProductBySlug(slug:string) {
   const res = await fetch(`/api/products/${slug}`)
