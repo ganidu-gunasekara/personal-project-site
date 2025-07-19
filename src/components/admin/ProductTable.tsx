@@ -12,7 +12,9 @@ export default function ProductTable() {
   const [products, setProducts] = useState<any[]>([]);
 
   useEffect(() => {
-    getAllProducts().then(setProducts);
+    getAllProducts().then((data) => {
+      setProducts(data.items)
+    });
   }, []);
 
   const handleDelete = async (id: string) => {

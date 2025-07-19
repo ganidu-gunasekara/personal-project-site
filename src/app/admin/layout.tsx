@@ -50,13 +50,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             <Package className="w-4 h-4" />
             Products
           </Link>
-          <Link
-            href="/admin/orders"
-            className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-zinc-800 transition"
-          >
-            <ShoppingCart className="w-4 h-4" />
-            Orders
-          </Link>
         </nav>
       </aside>
 
